@@ -5,6 +5,12 @@ set clipboard=unnamed
 set textwidth=120
 set ignorecase
 set smartcase
+set tabpagemax=100
+
+" This is only necessary if you use "set termguicolors".
+let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+set termguicolors
 
 set number relativenumber
 
@@ -20,10 +26,19 @@ set hlsearch
 " remove the delay of ^[O (Esc + O)
 set timeout timeoutlen=5000 ttimeoutlen=100
 
+"-- FOLDING --
+"set foldmethod=syntax "syntax highlighting items specify folds
+"set foldcolumn=1 "defines 1 col at window left, to indicate folding
+"let javaScript_fold=1 "activate folding by JS syntax
+"set foldlevelstart=99 "start file with all folds opened
+
 execute pathogen#infect()
 syntax on
 filetype plugin indent on
 com! FormatJSON $!python -m json.tool
+
+" map FZF to ctrl+p
+nnoremap <silent> <C-p> :FZF<CR>
 
 let mapleader = ","
 " laziness
@@ -50,6 +65,9 @@ nnoremap <leader>p "pp
 nnoremap <leader>P "pP
 vnoremap <leader>d "pd
 
+" reselect last pasted (or changed) text
+noremap gV `[v`]
+
 " Goyo enter and leave autocmd
 fun! MDEdit()
 	augroup numbertoggle
@@ -66,7 +84,7 @@ fun! MDEditOff()
 		autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
 	augroup END
 	Goyo!
-	colorscheme PaperColor
+	colorscheme gruvbox
 	PencilOff
 endfunction
 
@@ -88,9 +106,10 @@ augroup END
 "nmap <leader>dp let g:gitgutter_diff_base = "HEAD~1" | GitGutter
 
 set background=dark
-colorscheme PaperColor
+set t_Co=256
+colorscheme gruvbox
 
-let g:airline_theme='luna'
+let g:airline_theme='gruvbox'
 
 "====[ Make the 81st column stand out ]====================
 highlight ColorColumn ctermbg=magenta
@@ -121,32 +140,35 @@ call matchadd('ColorColumn', '\%81v', 100)
     set list
 
 " Setting for CtrlP
-set wildmenu
-set wildmode=longest,list
-set runtimepath^=~/.vim/bundle/ctrlp.vim
-let g:ctrlp_map = '<c-p>'
-let g:ctrlp_cmd = 'CtrlP'
-let g:ctrlp_working_path_mode = 'ra'
-let g:ctrlp_custom_ignore = {'dir': 'node_modules$\|DS_Store$\|git$\|dist$\|target$'}
-let g:ctrlp_max_files=0
-let g:ctrlp_max_depth=100
-let g:ctrlp_prompt_mappings = {
-  \ 'PrtSelectMove("j")': ['<c-n>', '<c-j>', '<down>'],
-  \ 'PrtSelectMove("k")': ['<c-p>', '<c-k>', '<up>'],
-  \ 'PrtHistory(-1)': ['<c-h>'],
-  \ 'PrtHistory(1)': ['<c-l>'],
-  \ 'PrtCurLeft()': ['<left>', '<c-^>'],
-  \ 'PrtCurRight()': ['<right>'],
-  \ }
+" set wildmenu
+" set wildmode=longest,list
+" set runtimepath^=~/.vim/bundle/ctrlp.vim
+" let g:ctrlp_map = '<c-p>'
+" let g:ctrlp_cmd = 'CtrlP'
+" let g:ctrlp_working_path_mode = 'ra'
+" let g:ctrlp_custom_ignore = {'dir': 'node_modules$\|DS_Store$\|git$\|dist$\|target$'}
+" let g:ctrlp_max_files=0
+" let g:ctrlp_max_depth=100
+" let g:ctrlp_prompt_mappings = {
+"   \ 'PrtSelectMove("j")': ['<c-n>', '<c-j>', '<down>'],
+"   \ 'PrtSelectMove("k")': ['<c-p>', '<c-k>', '<up>'],
+"   \ 'PrtHistory(-1)': ['<c-h>'],
+"   \ 'PrtHistory(1)': ['<c-l>'],
+"   \ 'PrtCurLeft()': ['<left>', '<c-^>'],
+"   \ 'PrtCurRight()': ['<right>'],
+"   \ }
 
 
 " for tmuxline + vim-airline integration
-let g:airline#extensions#tmuxline#enabled = 1
+let g:airline#extensions#tmuxline#enabled = 0
 " start tmuxline even without vim running
-let airline#extensions#tmuxline#snapshot_file = "~/.tmux-status.conf"
+" let airline#extensions#tmuxline#snapshot_file = "~/.tmuxline.config"
 
 " reduce the refresh time for vimgutter
 set updatetime=800
+
+" use fzf in vim
+set rtp+=/usr/local/opt/fzf
 " remove trailing while space
 " autocmd FileType js,json autocmd BufWritePre <buffer> %s/\s\+$//e
 
