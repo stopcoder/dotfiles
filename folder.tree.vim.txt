@@ -1,0 +1,34 @@
+├── autoload
+│   └── pathogen.vim
+├── bundle
+│   ├── Spacegray.vim
+│   ├── ale
+│   ├── base16-vim
+│   ├── fzf.vim
+│   ├── goyo.vim
+│   ├── gruvbox
+│   ├── iceberg.vim
+│   ├── limelight.vim
+│   ├── markdown-preview.nvim
+│   ├── seoul256.vim
+│   ├── tmuxline.vim
+│   ├── typescript-vim
+│   ├── vim-airline
+│   ├── vim-airline-themes
+│   ├── vim-autoformat
+│   ├── vim-colors-solarized
+│   ├── vim-fugitive
+│   ├── vim-gitgutter
+│   ├── vim-javascript
+│   ├── vim-livedown
+│   ├── vim-markdown
+│   ├── vim-pencil
+│   └── vim-vinegar
+├── colors
+│   ├── PaperColor.vim
+│   └── Tomorrow.vim
+├── ftplugin
+│   └── javascript.vim
+└── plugin
+    ├── Tabmerge.vim
+    └── mru.vim

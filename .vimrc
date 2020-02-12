@@ -73,8 +73,9 @@ fun! MDEdit()
 	augroup numbertoggle
 		autocmd!
 	augroup END
-	Goyo
-	colorscheme seoul256
+	Goyo 50%
+	"let g:seoul256_srgb = 1
+	"colorscheme seoul256
 endfunction
 
 fun! MDEditOff()
@@ -84,7 +85,7 @@ fun! MDEditOff()
 		autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
 	augroup END
 	Goyo!
-	colorscheme gruvbox
+	"colorscheme gruvbox
 	PencilOff
 endfunction
 
@@ -96,7 +97,7 @@ autocmd! User GoyoLeave Limelight!
 
 augroup pencil
   autocmd!
-  autocmd FileType markdown,mkd call pencil#init()
+  autocmd FileType markdown,mkd call pencil#init({'wrap': 'soft'})
   autocmd FileType text         call pencil#init()
 augroup END
 
@@ -108,6 +109,7 @@ augroup END
 set background=dark
 set t_Co=256
 colorscheme gruvbox
+let g:gruvbox_contrast_light='soft'
 
 let g:airline_theme='gruvbox'
 
@@ -138,26 +140,6 @@ call matchadd('ColorColumn', '\%81v', 100)
 
     exec "set listchars=tab:\uBB\uBB,trail:\uB7,nbsp:~"
     set list
-
-" Setting for CtrlP
-" set wildmenu
-" set wildmode=longest,list
-" set runtimepath^=~/.vim/bundle/ctrlp.vim
-" let g:ctrlp_map = '<c-p>'
-" let g:ctrlp_cmd = 'CtrlP'
-" let g:ctrlp_working_path_mode = 'ra'
-" let g:ctrlp_custom_ignore = {'dir': 'node_modules$\|DS_Store$\|git$\|dist$\|target$'}
-" let g:ctrlp_max_files=0
-" let g:ctrlp_max_depth=100
-" let g:ctrlp_prompt_mappings = {
-"   \ 'PrtSelectMove("j")': ['<c-n>', '<c-j>', '<down>'],
-"   \ 'PrtSelectMove("k")': ['<c-p>', '<c-k>', '<up>'],
-"   \ 'PrtHistory(-1)': ['<c-h>'],
-"   \ 'PrtHistory(1)': ['<c-l>'],
-"   \ 'PrtCurLeft()': ['<left>', '<c-^>'],
-"   \ 'PrtCurRight()': ['<right>'],
-"   \ }
-
 
 " for tmuxline + vim-airline integration
 let g:airline#extensions#tmuxline#enabled = 0
