@@ -32,3 +32,9 @@
 └── plugin
     ├── Tabmerge.vim
     └── mru.vim
+
+Document Writing:
+vim-pencil
+goyo.vim
+limelight.vim
+seoul256.vim
