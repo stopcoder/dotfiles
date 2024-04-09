@@ -71,6 +71,8 @@ source $ZSH/oh-my-zsh.sh
 # Enable pure-prompt
 autoload -U promptinit; promptinit
 prompt pure
+# disable the auto git pull
+PURE_GIT_PULL=0
 
 # Enable zsh syntax highlighting
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
@@ -86,6 +88,15 @@ export LANG=en_US.UTF-8
 # else
 #   export EDITOR='mvim'
 # fi
+export EDITOR=/usr/local/bin/vim
+
+# export JAVA_HOME
+export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_251.jdk/Contents/Home
+
+# export GIT_HOME
+export GIT_HOME=/Users/d051016/SAPDevelop/
+# export SAPUI5_HOME
+export SAPUI5_HOME=/Users/d051016/SAPDevelop/sapui5.runtime/
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -103,4 +114,18 @@ export LANG=en_US.UTF-8
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 source ~/.aliases
 
+# follow symbolic links, and don't want it to exclude hidden files
+export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
+# To apply the command to CTRL-T as well
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# This loads nvm
+export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+export PATH="/usr/local/opt/python@3.8/bin:$PATH"
+
+export GPG_TTY=$(tty)
+gpgconf --launch gpg-agent
+export BAT_THEME="1337"

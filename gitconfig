@@ -19,6 +19,7 @@
 [user]
 	email = jiawei.cao@sap.com
 	name = Jiawei Cao
+	signingkey = 78A93FE1
 [alias]
 	noproxy = config --global --remove-section http
 	proxy = config --global http.proxy http://proxy:8080
@@ -30,6 +31,8 @@
 	nb = "!f() { git checkout -b $1 origin/master; }; f"
 	ca = commit --amend
 	can = commit --amend --no-edit
+	csa = commit -S --amend
+	csan = commit -S --amend --no-edit
 	cm = commit -m
 	ap = add -p
 	log-gerrit-changes = !git branch | grep -v \"\\*\" | xargs -n 1 -I {} sh -c \"echo {} && git log -n 1 --format=%B --decorate {} -- | awk 'NR==1 || /Change-Id/' && echo\"
@@ -47,6 +50,9 @@
 	rebase = true
 [push]
 	default = simple
+	gpgSign = if-asked
 [core]
-	excludesfile = /Users/d051016/.config/git/ignore
+	excludesfile = /Users/d051016/.gitexcludes
 	editor = /usr/local/bin/vim
+[protocol]
+    version = 2

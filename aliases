@@ -1,0 +1,7 @@
+alias vim=/usr/local/bin/vim
+alias python3=/usr/local/bin/python3
+# alias git=/usr/local/bin/git
+alias oui5="cd ~/SAPDevelop/openui5"
+alias vimdiff='vim -p $(git diff --name-only) -c "tabdo :Gvdiff"'
+alias fixprompt="prompt_pure_async_init=0; async_stop_worker prompt_pure"
+alias nib="node --inspect-brk"

@@ -1,0 +1,29 @@
+- create:
+    - ~/.config/alacritty
+    - ~/.vim/bundle
+- link:
+    ~/.dotfiles: ''
+    ~/.vimrc:
+        path: vimrc
+        relink: true
+    ~/.zshrc:
+        path: zshrc
+        relink: true
+    ~/.aliases:
+        path: aliases
+        relink: true
+    ~/.tmux.conf:
+        path: tmux.conf
+        relink: true
+    ~/.tmuxline.config:
+        path: tmuxline.config
+        relink: true
+    ~/.gitconfig:
+        path: gitconfig
+        relink: true
+    ~/.gitexcludes:
+        path: gitexcludes
+        relink: true
+    ~/.config/alacritty/alacritty.yml:
+        path: alacritty.yml
+        relink: true

@@ -2,10 +2,11 @@ set tabstop=4
 set shiftwidth=4
 set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:␣
 set clipboard=unnamed
-set textwidth=120
+set textwidth=110
 set ignorecase
 set smartcase
 set tabpagemax=100
+set regexpengine=0
 
 " This is only necessary if you use "set termguicolors".
 let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
@@ -20,11 +21,49 @@ augroup numbertoggle
   autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
 augroup END
 
+"====================================================
+call plug#begin()
+" The default plugin directory will be as follows:
+"   - Vim (Linux/macOS): '~/.vim/plugged'
+"   - Vim (Windows): '~/vimfiles/plugged'
+"   - Neovim (Linux/macOS/Windows): stdpath('data') . '/plugged'
+" You can specify a custom plugin directory by passing it as the argument
+"   - e.g. `call plug#begin('~/.vim/plugged')`
+"   - Avoid using standard Vim directory names like 'plugin'
+
+" Make sure you use single quotes
+
+Plug 'dense-analysis/ale'
+Plug 'tpope/vim-fugitive'
+Plug 'junegunn/fzf.vim'
+Plug 'junegunn/goyo.vim'
+Plug 'junegunn/limelight.vim'
+Plug 'morhetz/gruvbox'
+Plug 'kamykn/spelunker.vim'
+Plug 'edkolev/tmuxline.vim'
+Plug 'vim-airline/vim-airline'
+" Plug 'Lokaltog/vim-powerline'
+Plug 'cormacrelf/vim-colors-github'
+Plug 'arzg/vim-colors-xcode'
+Plug 'airblade/vim-gitgutter'
+Plug 'pangloss/vim-javascript'
+Plug 'shime/vim-livedown'
+Plug 'preservim/vim-pencil'
+Plug 'tpope/vim-vinegar'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+" Initialize plugin system
+call plug#end()
+"====================================================
+
 set wrap
 set hlsearch
 
 " remove the delay of ^[O (Esc + O)
 set timeout timeoutlen=5000 ttimeoutlen=100
+
+" disable auto new line at end of file
+set nofixendofline
 
 "-- FOLDING --
 "set foldmethod=syntax "syntax highlighting items specify folds
@@ -32,13 +71,29 @@ set timeout timeoutlen=5000 ttimeoutlen=100
 "let javaScript_fold=1 "activate folding by JS syntax
 "set foldlevelstart=99 "start file with all folds opened
 
-execute pathogen#infect()
-syntax on
-filetype plugin indent on
+augroup javascript_folding
+    au!
+    au FileType javascript setlocal foldmethod=manual
+    au BufWinEnter * normal zR
+augroup END
+
+" fold block code around {}
+nnoremap <leader>fcb zfa}
+
+" save fold automatically when leave and load it when open
+augroup remember_folds
+  autocmd!
+  autocmd BufWinLeave * mkview
+  autocmd BufWinEnter * silent! loadview
+augroup END
+
 com! FormatJSON $!python -m json.tool
 
 " map FZF to ctrl+p
 nnoremap <silent> <C-p> :FZF<CR>
+
+" FZF config
+let g:fzf_layout = { 'down': '40%' }
 
 let mapleader = ","
 " laziness
@@ -65,8 +120,52 @@ nnoremap <leader>p "pp
 nnoremap <leader>P "pP
 vnoremap <leader>d "pd
 
+" comment out the current line
+nnoremap <leader>/ 0wi// <esc>
+
 " reselect last pasted (or changed) text
 noremap gV `[v`]
+
+" select code block starting from the current line
+nnoremap <leader>vb <S-v>$%
+
+" comment selected lines
+nnoremap <leader>bc :call Toggle()<CR>
+
+function! Comment()
+	let ft = &filetype
+	if ft == 'php' || ft == 'ruby' || ft == 'sh' || ft == 'make' || ft == 'python' || ft == 'perl'
+		silent s/^/\#/
+	elseif ft == 'javascript' || ft == 'c' || ft == 'cpp' || ft == 'java' || ft == 'objc' || ft == 'scala' || ft == 'go'
+		silent s:^:\/\/:g
+	elseif ft == 'tex'
+		silent s:^:%:g
+	elseif ft == 'vim'
+		silent s:^:\":g
+	endif
+endfunction
+
+function! Uncomment()
+	let ft = &filetype
+	if ft == 'php' || ft == 'ruby' || ft == 'sh' || ft == 'make' || ft == 'python' || ft == 'perl'
+		silent s/^\#//
+	elseif ft == 'javascript' || ft == 'c' || ft == 'cpp' || ft == 'java' || ft == 'objc' || ft == 'scala' || ft == 'go'
+		silent s:^\/\/::g
+	elseif ft == 'tex'
+		silent s:^%::g
+	elseif ft == 'vim'
+		silent s:^\"::g
+	endif
+endfunction
+
+function! Toggle()
+	try
+		call Uncomment()
+	catch
+		call Comment()
+	endtry
+endfunction
+
 
 " Goyo enter and leave autocmd
 fun! MDEdit()
@@ -156,3 +255,10 @@ set rtp+=/usr/local/opt/fzf
 
 " nmap <silent> <C-k> <Plug>(ale_previous_wrap)
 " nmap <silent> <C-j> <Plug>(ale_next_wrap)
+
+" Spellcheck type: (default: 1)
+" 1: File is checked for spelling mistakes when opening and saving. This
+" may take a bit of time on large files.
+" 2: Spellcheck displayed words in buffer. Fast and dynamic. The waiting time
+" depends on the setting of CursorHold `set updatetime=1000`.
+let g:spelunker_check_type = 2

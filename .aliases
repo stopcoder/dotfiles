@@ -1,2 +1,0 @@
-alias oui5="cd ~/work/openui5"
-alias vimdiff='vim -p $(git diff --name-only) -c "tabdo :Gvdiff"'
