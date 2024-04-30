@@ -1,4 +1,4 @@
-alias vim=/usr/local/bin/vim
+alias vim="nvim"
 alias python3=/usr/local/bin/python3
 # alias git=/usr/local/bin/git
 alias oui5="cd ~/SAPDevelop/openui5"

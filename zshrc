@@ -62,20 +62,22 @@ ZSH_THEME="robbyrussell"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(git fzf-zsh-plugin)
 
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
 # Enable pure-prompt
+fpath+=/opt/homebrew/share/zsh/site-functions
+
 autoload -U promptinit; promptinit
 prompt pure
 # disable the auto git pull
 PURE_GIT_PULL=0
 
 # Enable zsh syntax highlighting
-source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 export MANPATH="/usr/local/man:$MANPATH"
 
@@ -127,5 +129,5 @@ export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || pr
 export PATH="/usr/local/opt/python@3.8/bin:$PATH"
 
 export GPG_TTY=$(tty)
-gpgconf --launch gpg-agent
+# gpgconf --launch gpg-agent
 export BAT_THEME="1337"
